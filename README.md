@@ -1,68 +1,141 @@
-# Monitoramento de Modelos - Data Drift Detection
+# 📈 Monitoramento de Modelos de Machine Learning: Detecção de Data Drift
 
-Este projeto tem como objetivo **monitorar modelos de Machine Learning em produção**, com foco especial na **detecção de Data Drift** – mudanças nas distribuições dos dados ao longo do tempo, que podem comprometer a performance preditiva de modelos já treinados.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
----
+## Visão Geral do Projeto
 
-## Visão Geral
+Este projeto aborda um desafio crítico no ciclo de vida de modelos de Machine Learning em produção: a **detecção de Data Drift**. Data Drift refere-se a mudanças nas distribuições dos dados de entrada ao longo do tempo, que podem levar à degradação do desempenho de um modelo já treinado. O objetivo é implementar um sistema de monitoramento robusto para identificar essas mudanças e garantir a confiabilidade e a acurácia contínua dos modelos em ambientes dinâmicos.
 
-Com o tempo, os dados que alimentam um modelo podem mudar devido a fatores externos como comportamento de usuários, sazonalidade, eventos econômicos ou mudanças de sistema. Esse fenômeno é conhecido como **Data Drift**.
+## 🚀 Demonstração
 
-Este notebook simula um ambiente de produção e implementa técnicas estatísticas para:
+Veja a animação resultante do projeto:
 
-- Comparar os dados de produção com os dados originais de treinamento.
-- Identificar mudanças significativas na distribuição das variáveis.
-- Gerar visualizações que facilitam a tomada de decisão sobre reentreinar ou ajustar o modelo.
+<p align="center">
+  <img src="media/monitoramento_drift.gif" alt="Animação Monitoramento Data Drift" width="700"/>
+</p>
 
----
+## Motivação
 
-## ⚙️ Tecnologias e Bibliotecas Utilizadas
+Modelos de Machine Learning são treinados com base em dados históricos. No entanto, o mundo real está em constante evolução. Fatores como mudanças no comportamento do consumidor, novas tendências, sazonalidade, crises econômicas ou atualizações de sistemas podem alterar a natureza dos dados que o modelo recebe. Sem um monitoramento eficaz, um modelo pode começar a fazer previsões imprecisas, impactando negativamente decisões de negócio e resultados. Este projeto visa mitigar esse risco, fornecendo ferramentas para detectar e visualizar o Data Drift.
 
-- **Python 3.10+**
-- **Pandas** – Manipulação de dados tabulares
-- **Numpy** – Operações numéricas
-- **Matplotlib** e **Seaborn** – Visualização de dados
-- **Scipy** – Testes estatísticos (KS Test)
-- **Scikit-learn** – Pré-processamento e utilidades
-- **PSI (Population Stability Index)** – Implementado para medir a estabilidade da distribuição
+## Tecnologias Utilizadas
 
----
+Para o desenvolvimento deste sistema de monitoramento, foram empregadas as seguintes tecnologias e bibliotecas Python:
+
+* **Python 3.10+**: Linguagem de programação principal.
+* **Pandas**: Essencial para manipulação e análise de dados tabulares.
+* **NumPy**: Fundamento para operações numéricas eficientes.
+* **Matplotlib** e **Seaborn**: Utilizadas para a criação de visualizações estáticas e animações dinâmicas das distribuições de dados.
+* **Scipy**: Empregado para testes estatísticos, como o teste de Kolmogorov-Smirnov (KS Test), para comparar distribuições.
+* **Scikit-learn**: Fornece utilidades para pré-processamento de dados e outras ferramentas de ML.
+* **PIL (Pillow)**: Utilizada indiretamente via `matplotlib.animation.PillowWriter` para exportar a animação como GIF.
 
 ## Metodologia
 
-1. **Simulação dos Dados**:
-   - Geração de um conjunto de dados base (treinamento).
-   - Simulação de dados de produção com pequenas alterações nas distribuições.
+O projeto segue uma metodologia clara para simular, detectar e visualizar o Data Drift:
 
-2. **Análise Estatística**:
-   - **KS Test** (Kolmogorov–Smirnov): verifica se duas distribuições são estatisticamente diferentes.
-   - **PSI (Population Stability Index)**: quantifica a mudança na distribuição das variáveis.
+1.  **Simulação de Dados**:
+    * Criação de um conjunto de dados "base" para simular o ambiente de treinamento original do modelo.
+    * Geração de dados de "produção" em tempo real, introduzindo intencionalmente pequenas alterações e, em certos momentos, drifts significativos nas distribuições de variáveis-chave.
 
-3. **Visualização**:
-   - Histogramas e KDEs comparando a distribuição das variáveis no tempo.
-   - Dashboard simples em notebook para acompanhamento manual.
+2.  **Análise Estatística para Detecção de Drift**:
+    * **KS Test (Kolmogorov–Smirnov)**: Aplicado para avaliar se as distribuições das variáveis nos dados de produção são estatisticamente diferentes das distribuições nos dados de treinamento.
+    * **PSI (Population Stability Index)**: Calculado para quantificar a magnitude da mudança na distribuição de cada variável, fornecendo um indicador numérico da estabilidade.
 
----
+3.  **Visualização Dinâmica**:
+    * Criação de gráficos animados (histogramas e KDEs) que mostram a evolução das distribuições das variáveis ao longo do tempo.
+    * Implementação de alertas visuais (e.g., pontos e texto) no gráfico quando os limites de Data Drift são excedidos, facilitando a identificação rápida de anomalias.
 
-## Resultados
+## Estrutura do Projeto:
 
-- Foi possível detectar alterações significativas em variáveis simuladas como "idade" e "renda".
-- O PSI identificou desvios sutis que o KS Test não capturava isoladamente.
-- Gráficos facilitaram a interpretação das mudanças e ajudaram na tomada de decisão quanto à manutenção do modelo.
+Este repositório está organizado da seguinte forma:
 
----
+* `media/`: Contém os arquivos de mídia gerados pelo projeto.
+    * `monitoramento_drift.gif`: Animação GIF que visualiza a detecção de Data Drift ao longo do tempo.
+* `notebooks/`: Contém os notebooks Jupyter que documentam o processo de desenvolvimento e simulação.
+    * `Monitoramento_Modelo_Data_Drift.ipynb`: Notebook principal que implementa a simulação de dados, a detecção de drift (KS Test, PSI) e a criação da visualização animada.
+* `README.md`: Este arquivo, que fornece uma visão geral completa do projeto.
+* `LICENSE.md`: Arquivo contendo a licença do projeto (MIT).
+* `requirements.txt`: Lista de todas as dependências Python necessárias para o projeto.
 
-## Possíveis Extensões
+## Instalação e Uso
 
-- Automatização em pipelines de MLOps.
-- Alertas em tempo real com dashboards (ex: Streamlit, Dash).
-- Integração com modelos preditivos já em produção.
+Para configurar e executar este projeto em seu ambiente local, siga os passos abaixo:
 
----
+1.  **Clone o Repositório**:
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO>
+    cd <nome_do_seu_repositorio>
+    ```
+    (Substitua `<URL_DO_SEU_REPOSITORIO>` e `<nome_do_seu_repositorio>` pelos valores corretos).
 
-## 📎 Como Executar
+2.  **Crie a Estrutura de Diretórios**:
+    Certifique-se de que as pastas `dados`, `media` e `notebooks` existam na raiz do seu projeto.
+    ```bash
+    mkdir dados media notebooks
+    ```
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/flaviohenriquehb777/Projeto_Monitoramento_Modelo_Data_Drift.git
-   cd monitoramento-data-drift
+3.  **Posicione os Arquivos**:
+    * Coloque o notebook `Monitoramento_Modelo_Data_Drift.ipynb` na pasta `notebooks/`.
+    * O GIF `monitoramento_drift.gif` será salvo automaticamente na pasta `media/` após a execução do notebook.
+
+4.  **Crie e Ative um Ambiente Virtual (Recomendado)**:
+    É altamente recomendável usar um ambiente virtual para gerenciar as dependências do projeto.
+
+    ```bash
+    # Usando conda
+    conda create -n drift_env python=3.10
+    conda activate drift_env
+
+    # Ou usando venv
+    python -m venv venv
+    .\venv\Scripts\activate   # No Windows PowerShell
+    source venv/bin/activate  # No Linux/macOS
+    ```
+
+5.  **Instale as Dependências**:
+    Crie um arquivo `requirements.txt` na raiz do seu projeto com o seguinte conteúdo:
+
+    ```
+    numpy>=1.20
+    pandas>=1.3
+    matplotlib>=3.4
+    seaborn>=0.11
+    scipy>=1.7
+    scikit-learn>=1.0
+    Pillow>=9.0
+    ```
+
+    Com o ambiente ativado, instale as bibliotecas:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+6.  **Execute o Notebook**:
+    Inicie o Jupyter Notebook na raiz do seu projeto:
+    ```bash
+    jupyter notebook
+    ```
+    Navegue até a pasta `notebooks/` e execute o notebook `Monitoramento_Modelo_Data_Drift.ipynb` para simular o drift e gerar a animação.
+
+## Resultados e Impacto
+
+Este projeto demonstra graficamente a importância do monitoramento contínuo de modelos. A animação gerada no `media/monitoramento_drift.gif` ilustra claramente como as distribuições de dados podem mudar ao longo do tempo, e como os alertas de drift se manifestam visualmente quando limites pré-definidos são atingidos.
+
+A capacidade de detectar e visualizar o Data Drift de forma proativa é fundamental para:
+
+* **Manter a Performance do Modelo**: Identificar a necessidade de re-treinamento ou ajuste do modelo antes que sua acurácia degrade significativamente.
+* **Reduzir Riscos de Negócio**: Evitar decisões erradas baseadas em previsões obsoletas.
+* **Otimizar o Ciclo de Vida do ML**: Integrar o monitoramento como parte essencial de um pipeline MLOps.
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT. Para mais detalhes, consulte o arquivo [LICENSE.md](LICENSE.md) na raiz do repositório.
+
+## Contato
+
+Sinta-se à vontade para entrar em contato se tiver alguma dúvida, sugestão ou quiser discutir o projeto:
+
+* **Nome**: Flávio Henrique Barbosa
+* **LinkedIn**: [Flávio Henrique Barbosa | LinkedIn](https://www.linkedin.com/in/fl%C3%A1vio-henrique-barbosa-38465938)
+* **Email**: flaviohenriquehb777@outlook.com
