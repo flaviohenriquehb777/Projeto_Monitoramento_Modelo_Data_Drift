@@ -130,7 +130,7 @@ A capacidade de detectar e visualizar o Data Drift de forma proativa é fundamen
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT. Para mais detalhes, consulte o arquivo [LICENSE.md](LICENSE.md) na raiz do repositório.
+Este projeto está licenciado sob a Licença MIT. Para mais detalhes, consulte o arquivo [LICENSE](LICENSE.md) na raiz do repositório.
 
 ## Contato
 
